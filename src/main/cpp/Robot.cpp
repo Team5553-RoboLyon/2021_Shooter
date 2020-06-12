@@ -26,18 +26,22 @@ void Robot::RobotInit()
     m_ShooterEnabled = false;
 
     m_PowerEntry = frc::Shuffleboard::GetTab("Shooter").Add("Power", 0.0).WithWidget(frc::BuiltInWidgets::kNumberSlider).GetEntry();
+    m_LogEntry = frc::Shuffleboard::GetTab("Shooter").Add("Logging", false).WithWidget(frc::BuiltInWidgets::kToggleButton).GetEntry();
 }
 
 void Robot::AutonomousInit() {}
 void Robot::AutonomousPeriodic() {}
 
-void Robot::TeleopInit() {}
+void Robot::TeleopInit()
+{
+    m_ShooterEnabled = false;
+}
 void Robot::TeleopPeriodic()
 {
     if (m_DriverController.GetAButtonPressed())
     {
         m_ShooterEnabled = !m_ShooterEnabled;
-        if (m_ShooterEnabled)
+        if (m_ShooterEnabled && m_LogEntry.GetBoolean(false))
         {
             m_LogFile = new CSVLogFile("/home/lvuser/logs/log", "Power", "Right", "Left");
         }
@@ -52,8 +56,11 @@ void Robot::TeleopPeriodic()
         double power = m_PowerEntry.GetDouble(0.0);
         m_RightMotor.Set(power);
         m_LeftMotor.Set(power);
-        std::cout << power << "  " << m_RightEncoder.GetVelocity() << "  " << m_LeftEncoder.GetVelocity() << std::endl;
-        m_LogFile->Log(power, m_RightEncoder.GetVelocity(), m_LeftEncoder.GetVelocity());
+        if (m_LogEntry.GetBoolean(false))
+        {
+            std::cout << power << "  " << m_RightEncoder.GetVelocity() << "  " << m_LeftEncoder.GetVelocity() << std::endl;
+            m_LogFile->Log(power, m_RightEncoder.GetVelocity(), m_LeftEncoder.GetVelocity());
+        }
     }
     else
     {

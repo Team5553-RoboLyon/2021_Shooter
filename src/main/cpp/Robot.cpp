@@ -25,6 +25,7 @@ void Robot::RobotInit()
 
     m_ShooterEnabled = false;
 
+    m_IsEnabledEntry = frc::Shuffleboard::GetTab("Shooter").Add("Is Shooter enabled", false).WithWidget(frc::BuiltInWidgets::kBooleanBox).GetEntry();
     m_PowerEntry = frc::Shuffleboard::GetTab("Shooter").Add("Power", 0.0).WithWidget(frc::BuiltInWidgets::kNumberSlider).GetEntry();
     m_LogEntry = frc::Shuffleboard::GetTab("Shooter").Add("Logging", false).WithWidget(frc::BuiltInWidgets::kToggleButton).GetEntry();
 }
@@ -35,12 +36,14 @@ void Robot::AutonomousPeriodic() {}
 void Robot::TeleopInit()
 {
     m_ShooterEnabled = false;
+    m_IsEnabledEntry.SetBoolean(m_ShooterEnabled);
 }
 void Robot::TeleopPeriodic()
 {
     if (m_DriverController.GetAButtonPressed())
     {
         m_ShooterEnabled = !m_ShooterEnabled;
+        m_IsEnabledEntry.SetBoolean(m_ShooterEnabled);
         if (m_ShooterEnabled && m_LogEntry.GetBoolean(false))
         {
             m_LogFile = new CSVLogFile("/home/lvuser/logs/log", "Power", "Right", "Left");

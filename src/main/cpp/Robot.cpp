@@ -15,11 +15,11 @@ void Robot::RobotInit()
     m_RightMotor.RestoreFactoryDefaults();
     m_LeftMotor.RestoreFactoryDefaults();
 
-    m_RightMotor.SetOpenLoopRampRate(0.6);
-    m_LeftMotor.SetOpenLoopRampRate(0.6);
+    m_RightMotor.SetOpenLoopRampRate(1);
+    m_LeftMotor.SetOpenLoopRampRate(1);
 
-    //m_RightMotor.EnableVoltageCompensation(11.5);
-    //m_LeftMotor.EnableVoltageCompensation(11.5);
+    m_RightMotor.EnableVoltageCompensation(11.5);
+    m_LeftMotor.EnableVoltageCompensation(11.5);
 
     m_LeftMotor.SetInverted(true);
 
@@ -28,6 +28,7 @@ void Robot::RobotInit()
     m_IsEnabledEntry = frc::Shuffleboard::GetTab("Shooter").Add("Is Shooter enabled", false).WithWidget(frc::BuiltInWidgets::kBooleanBox).GetEntry();
     m_PowerEntry = frc::Shuffleboard::GetTab("Shooter").Add("Power", 0.0).WithWidget(frc::BuiltInWidgets::kNumberSlider).GetEntry();
     m_LogEntry = frc::Shuffleboard::GetTab("Shooter").Add("Logging", false).WithWidget(frc::BuiltInWidgets::kToggleButton).GetEntry();
+    m_LogFilename = frc::Shuffleboard::GetTab("Shooter").Add("Logfile Name", "").WithWidget(frc::BuiltInWidgets::kTextView).GetEntry();
 }
 
 void Robot::AutonomousInit() {}
@@ -47,6 +48,7 @@ void Robot::TeleopPeriodic()
         if (m_ShooterEnabled && m_LogEntry.GetBoolean(false))
         {
             m_LogFile = new CSVLogFile("/home/lvuser/logs/log", "Power", "Right", "Left");
+            m_LogFilename.SetString(m_LogFile->GetFileName());
         }
         else
         {

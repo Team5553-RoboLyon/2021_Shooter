@@ -30,7 +30,7 @@ public:
 
 private:
   frc::XboxController m_DriverController{0};
-  nt::NetworkTableEntry m_IsEnabledEntry, m_PowerEntry, m_LogEntry;
+  nt::NetworkTableEntry m_IsEnabledEntry, m_PowerEntry, m_LogEntry, m_LogFilename;
   CSVLogFile *m_LogFile;
 
   rev::CANSparkMax m_RightMotor{1, rev::CANSparkMax::MotorType::kBrushless};

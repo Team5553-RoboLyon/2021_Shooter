@@ -33,8 +33,8 @@ private:
   nt::NetworkTableEntry m_IsEnabledEntry, m_PowerEntry, m_LogEntry, m_LogFilename;
   CSVLogFile *m_LogFile;
 
-  rev::CANSparkMax m_RightMotor{1, rev::CANSparkMax::MotorType::kBrushless};
-  rev::CANSparkMax m_LeftMotor{2, rev::CANSparkMax::MotorType::kBrushless};
+  rev::CANSparkMax m_RightMotor{7, rev::CANSparkMax::MotorType::kBrushless};
+  rev::CANSparkMax m_LeftMotor{6, rev::CANSparkMax::MotorType::kBrushless};
   rev::CANEncoder m_RightEncoder{m_RightMotor};
   rev::CANEncoder m_LeftEncoder{m_LeftMotor};
 
